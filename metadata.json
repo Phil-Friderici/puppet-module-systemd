@@ -1,6 +1,6 @@
 {
   "name": "kodguru-docker",
-  "version": "v0.2.2",
+  "version": "0.2.2",
   "author": "kodguru",
   "summary": "Manage systemd services file",
   "license": "Apache-2.0",
