@@ -2,5 +2,6 @@
 type Systemd::Sec = Variant[
   Integer[0],
   Enum['infinity'],
-  Pattern['(([0-9]+h(our)?)?([0-9]+m(in)?)?([0-9]+s(ec)?([0-9]+ms)?)?)'],
+  Pattern['^[0-9]+$'],                              # stringified positive integers
+  Pattern['^([0-9]+(ms|sec|s|min|m|hour|h)( )?)+'], # '3ms', '3s', '3sec', '3m', '3min', '3h', '3hour', '4h 2m' etc etc
 ]

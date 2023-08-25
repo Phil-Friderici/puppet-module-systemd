@@ -4,7 +4,7 @@
 #   Define the unit parameters.
 #
 class systemd (
-  Optional[Hash] $units = undef,
+  Hash $units = {},
 ) {
   exec { 'systemd_reload':
     command     => 'systemctl daemon-reload',
@@ -12,9 +12,5 @@ class systemd (
     path        => '/bin:/usr/bin:/usr/local/bin',
   }
 
-  if $units != undef {
-    validate_hash($units)
-
-    create_resources('systemd::unit', $units)
-  }
+  create_resources('systemd::unit', $units)
 }

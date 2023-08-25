@@ -69,5 +69,7 @@ describe 'systemd' do
         },
       )
     end
+
+    it { is_expected.to contain_systemd__unit('example_unit') } # only here to reach 100% resource coverage
   end
 end
