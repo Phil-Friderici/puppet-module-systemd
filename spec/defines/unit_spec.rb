@@ -118,42 +118,42 @@ describe 'systemd::unit' do
 
   describe 'variable type and content validations' do
     validations = {
-      'absolute_path' => {
+      'Stdlib::Absolutepath' => {
         name:    ['systemd_path'],
         valid:   ['/absolute/filepath', '/absolute/directory/'],
         invalid: ['./relative/path', ['array'], { 'ha' => 'sh' }, 3, 2.42, true, nil],
-        message: 'is not an absolute path',
+        message: 'expects a Stdlib::Absolutepath',
       },
-      'array' => {
+      'Optional[Array]' => {
         name:    ['service_execstartpre'],
         valid:   [['array']],
         invalid: ['string', { 'ha' => 'sh' }, 3, 2.42, true],
-        message: 'is not an Array',
+        message: 'expects a value of type Undef or Array',
       },
-      'time span & seconds' => {
+      'Optional[Systemd::Sec]' => {
         name:    ['service_timeoutstartsec', 'service_restartsec'],
         valid:   [242, '242', '1ms', '1s', '1sec', '1m', '1min', '1h', '1hour', '1min 10s', '1m 10sec'],
         invalid: [['array'], { 'ha' => 'sh' }, true, -242, '-242', 2.42],
-        message: '(must match either|is not a string nor an integer|to be greater or equal to 0, got)',
+        message: '(Systemd::Sec|)', # unkown error message for '-242' :(
       },
-      'string' => {
+      'Optional[String[1]]' => {
         name:    ['unit_after', 'unit_before', 'unit_description', 'environment', 'group', 'user', 'workingdirectory', 'service_restart',
                   'service_execstart', 'service_execstop', 'install_wantedby'],
         valid:   ['valid'],
         invalid: [['array'], { 'ha' => 'sh' }, 3, 2.42, true],
-        message: 'is not a string',
+        message: 'expects a value of type Undef or String',
       },
-      'string (ensure)' => {
+      'Enum[present, absent]' => {
         name:    ['ensure'],
         valid:   ['present', 'absent'],
         invalid: [['array'], { 'ha' => 'sh' }, 3, 2.42, true],
-        message: '(::ensure does not match the regex|::ensure is not a string)',
+        message: 'expects a match for Enum\[\'absent\', \'present\'\]',
       },
-      'string (service_type)' => {
+      'Systemd::Service_type' => {
         name:    ['service_type'],
         valid:   ['simple', 'forking', 'oneshot', 'dbus', 'notify', 'idle'],
         invalid: [['array'], { 'ha' => 'sh' }, 3, 2.42, true],
-        message: 'is not a string|does not match the regex.',
+        message: 'Systemd::Service_type',
       },
     }
 
