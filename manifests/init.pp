@@ -1,20 +1,16 @@
-# == Class: systemd
+# @summary This module manages SystemD services files
 #
-# Manage Systemd
+# @param units
+#   Define the unit parameters.
 #
 class systemd (
-  $units = undef,
+  Hash $units = {},
 ) {
-
   exec { 'systemd_reload':
     command     => 'systemctl daemon-reload',
     refreshonly => true,
     path        => '/bin:/usr/bin:/usr/local/bin',
   }
 
-  if $units != undef {
-    validate_hash($units)
-
-    create_resources('systemd::unit', $units)
-  }
+  create_resources('systemd::unit', $units)
 }
